@@ -1,0 +1,146 @@
+<div class="user-list">
+  <h2 class="title">User List</h2>
+
+
+<div class="table-top">
+  <div class="search">
+  <input type="text" placeholder="search username or name" (input)="onSearchInput($event)">
+</div>
+
+<div class="table-top__filters">
+     <select>
+        <option disabled selected>All countries</option>
+        <option *ngFor="let c of countries" [value]="c.code">
+          {{ c.name }}
+        </option>
+      </select>
+    <div class="table-top__age">
+      <input type="number" placeholder="start age">
+      <span>-</span>
+      <input type="number" placeholder="end age">
+    </div>
+    <button>Filter</button>
+</div>
+
+  
+
+</div>
+
+ <div *ngIf="loading" class="skeleton-table">
+    <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+      <div class="skeleton-cell avatar"></div>
+      <div class="skeleton-cell name"></div>
+      <div class="skeleton-cell country"></div>
+      <div class="skeleton-cell age"></div>
+      <div class="skeleton-cell skill"></div>
+      <div class="skeleton-cell activity"></div>
+      <div class="skeleton-cell contests"></div>
+      <div class="skeleton-cell challenges"></div>
+      <div class="skeleton-cell streak"></div>
+      <div class="skeleton-cell kepcoin"></div>
+      <div class="skeleton-cell lastseen"></div>
+    </div>
+  </div>
+
+
+<table *ngIf="!loading" class="user-table">
+  <thead>
+    <tr>
+      <th>Foydalanuvchi</th>
+      <th>Nomi</th>
+      <th>Davlat</th>
+      <th>Yosh</th>
+    <th (click)="toggleSort('skills_rating')" class="sortable">
+        Ko‘nikmalar {{ getSortIcon('skills_rating') }}
+      </th>
+
+      <th  class="sortable">
+      Faollik
+    
+    </th>
+       <th  class="sortable">
+        Kontestlar 
+      </th>
+      <th>Bellashuvlar</th>
+      <th>Streak</th>
+       <th  class="sortable" (click)="toggleSort('kepcoin')">
+      Kepcoin {{ getSortIcon('kepcoin') }}
+      
+    </th>
+      <th>Oxirgi kirish</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>
+        <div class="user-cell">
+          <img [src]="user.avatar" alt="Avatar" class="avatar">
+          <div class="user-info">
+            <div class="nickname">{{ user.username }}</div>
+            <div class="sub-info">{{ user.firstName }} {{ user.lastName }}</div>
+          </div>
+        </div>
+      </td>
+
+      <td>{{ user.firstName || "-" }} {{ user.lastName || "-" }}</td>
+
+      <td> {{ user.country || "🌎" }}</td>
+
+      <td>{{ user.age || "-" }}</td>
+
+      <td><span class="chip skills">{{ user.skillsRating }}</span></td>
+
+      <td><span class="chip activity">{{ user.activityRating }}</span></td>
+
+      <td>🏆 {{ user.contestsRating }}</td>
+
+      <td><span class="badge">⚔️ {{ user.challenges_rating }}</span></td>
+
+      <td>🔥  {{ user.streak }}</td>
+
+      <td>💰 {{ user.kepcoin }}</td>
+
+      <td>{{(user.lastSeen) || "-"}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<div *ngIf="!loading" class="pagination-container">
+    <div class="pagination-info">
+      Showing {{ showingFrom }}–{{ showingTo }} of {{ total }}
+    </div>
+
+  <div class="pagination-controls">
+  <button (click)="changePage(page - 1)" [disabled]="page === 1">Prev</button>
+
+<ng-container *ngFor="let p of generatePagination()">
+  <button
+    *ngIf="p !== '...'; else dots"
+    (click)="changePage(+p)"
+    [class.active]="page === p">
+    {{ p }}
+  </button>
+  <ng-template #dots>
+    <span class="dots">...</span>
+  </ng-template>
+</ng-container>
+
+
+  <button (click)="changePage(page + 1)" [disabled]="page === pagesCount">Next</button>
+</div>
+
+    <div class="page-size">
+      <label>Per page: </label>
+      <select (change)="changePageSize($event)">
+        <option [value]="10" [selected]="pageSize === 10">10</option>
+        <option [value]="20" [selected]="pageSize === 20">20</option>
+        <option [value]="50" [selected]="pageSize === 50">50</option>
+      </select>
+    </div>
+  </div>
+
+
+
+</div>
