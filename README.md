@@ -60,3 +60,6 @@ lk pagelarni tartibga solish uchun generatePagination function yozildi
 
 
 
+4.age bilan country data da yo'q bo'lgani uchun functionlarini yozmadim 
+# to'g'riroqi angularga birinchi yozishim ko'p vaqt tushunishga ketyabdi
+

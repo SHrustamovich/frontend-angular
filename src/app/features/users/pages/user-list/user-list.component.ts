@@ -114,7 +114,7 @@ export class UserListComponent implements OnInit {
   }
 
   applyAgeFilter() {
-    this.page = 1; // yangi filterda 1-betdan boshlaymiz
+    this.page = 1; // yangi filterda 1-betdan boshlash u-n
     this.loadUsers();
   }
 
