@@ -10,6 +10,8 @@ unda search,pagination sort va filter ishlatish kerak edi
 
 1.Userlarni ro'yhati api endpoinddan olib kelindi
 
+![Main](./public/main.jpg)
+
 2.search query ishlatmoqchi edim
 ```bash
 private applyFilter(query: string) {
@@ -31,6 +33,8 @@ private applyFilter(query: string) {
 ```
 
 lk backend query ishlamadi shuning uchun frontda qilindi
+
+![Search](./public/search.jpg)
 
 ```bash
   private applyFilter(query: string) {
