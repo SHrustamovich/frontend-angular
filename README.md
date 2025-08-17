@@ -1,59 +1,58 @@
-# MyApp
+# Users List
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
-
-## Development server
-
-To start a local development server, run:
-
+# dasturni ishga tushurish uchun
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Userlarni ro'yhati chiqiarildi
+unda search,pagination sort va filter ishlatish kerak edi
 
-## Code scaffolding
+1.Userlarni ro'yhati api endpoinddan olib kelindi
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+2.search query ishlatmoqchi edim
 ```bash
-ng generate component component-name
+private applyFilter(query: string) {
+    const q = (query || '').trim();
+
+    this.loading = true;
+    this.userService.getUsers({ search: q }).subscribe({
+      next: (res) => {
+        this.allUsers = res?.data ? res.data : res;
+        this.users = [...this.allUsers];
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Xatolik:', err);
+        this.loading = false;
+      },
+    });
+  }
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+lk backend query ishlamadi shuning uchun frontda qilindi
 
 ```bash
-ng generate --help
+  private applyFilter(query: string) {
+    const q = (query || '').toLowerCase().trim();
+    if (!q) {
+      this.users = [...this.allUsers];
+      return;
+    }
+
+    this.users = this.allUsers.filter((u) => {
+      const username = u?.username?.toLowerCase() || '';
+      const fullName = `${u?.firstName || ''} ${u?.lastName || ''}`.toLowerCase().trim();
+      return username.includes(q) || fullName.includes(q);
+    });
+  }
 ```
 
-## Building
+3.Pagination o'rnatildi
+changePage va changePageSize functionlarin yozildi 
+lk pagelarni tartibga solish uchun generatePagination function yozildi
 
-To build the project run:
+![Pagination](./public/pagination.jpg)
 
-```bash
-ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
