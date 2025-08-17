@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {User, UserResponse } from '../../../../core/models/user.model';
+import { UserTableComponent } from '../../components/user-table/user-table.component';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UserTableComponent],
   styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
@@ -157,27 +158,9 @@ export class UserListComponent implements OnInit {
     return pages;
   }
 
-  toggleSort(field: string) {
-    if (this.ordering === field) {
-      this.ordering = `-${field}`; 
-    } else if (this.ordering === `-${field}`) {
-      this.ordering = null; 
-    } else {
-      this.ordering = field;
-    }
+  onSortChange(newOrdering: string) {
+    this.ordering = newOrdering;
     this.page = 1; 
     this.loadUsers();
-  }
-
-  getSortIcon(field: string): string {
-    if (this.ordering === field) return '▲'; 
-    if (this.ordering === `-${field}`) return '▼'; 
-    return '▲▼'; 
-  }
-
-  formatNumber(num: number | undefined) {
-    if (!num && num !== 0) return '—';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
-    return num.toLocaleString('en-US');
   }
 }
